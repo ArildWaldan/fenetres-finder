@@ -752,6 +752,377 @@
         .results-grid .result-card:nth-child(6) { animation-delay: 250ms; }
         .results-grid .result-card:nth-child(7) { animation-delay: 300ms; }
         .results-grid .result-card:nth-child(8) { animation-delay: 350ms; }
+
+        /* ===== TOLERANCE SLIDER ===== */
+        .tolerance-slider-container {
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .slider-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-min, .slider-max {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .slider-track-container {
+            flex: 1;
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .tolerance-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .tolerance-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--casto-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,82,204,0.4);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .tolerance-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 10px rgba(0,82,204,0.5);
+        }
+
+        .tolerance-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--casto-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,82,204,0.4);
+        }
+
+        .slider-value-bubble {
+            position: absolute;
+            top: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--casto-blue);
+            color: white;
+            padding: 0.25rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: left var(--transition-fast);
+        }
+
+        .slider-value-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid var(--casto-blue);
+        }
+
+        /* ===== RESULTS MESSAGE ===== */
+        .results-message {
+            grid-column: 1 / -1;
+            padding: 1rem 1.25rem;
+            background: var(--info-soft);
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: #0747A6;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .results-message.exact {
+            background: var(--success-soft);
+            color: #006644;
+        }
+
+        .results-message-icon {
+            font-size: 1.125rem;
+        }
+
+        /* ===== REDESIGNED CARDS ===== */
+        .result-card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            cursor: default;
+            position: relative;
+        }
+
+        /* Material Header Bar */
+        .material-bar {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .material-bar.pvc { background: var(--pvc-color); }
+        .material-bar.alu { background: var(--alu-color); }
+        .material-bar.bois { background: var(--bois-color); }
+
+        .result-card.gamme-a {
+            background: linear-gradient(135deg, #FFFDF5 0%, var(--surface-elevated) 100%);
+        }
+
+        /* VRI Corner Ribbon */
+        .vri-ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 70px;
+            height: 70px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .vri-ribbon-inner {
+            position: absolute;
+            top: 12px;
+            right: -22px;
+            width: 90px;
+            text-align: center;
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 0.25rem 0;
+            box-shadow: 0 2px 4px rgba(91, 33, 182, 0.3);
+        }
+
+        .result-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .result-card.exact-match {
+            border-color: var(--success);
+            border-width: 1px;
+            border-left-width: 4px;
+        }
+
+        /* Card Header - Dimensions Primary */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.25rem 1.25rem 0.75rem;
+            gap: 1rem;
+        }
+
+        .card-dimension {
+            display: flex;
+            flex-direction: column;
+            gap: 0.125rem;
+        }
+
+        .dimension-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .dimension-value .dim-match { color: var(--text-primary); }
+        .dimension-value .dim-bigger { color: #D97706; }
+        .dimension-value .dim-smaller { color: #2563EB; }
+
+        .dimension-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Price - Secondary */
+        .card-price-section {
+            text-align: right;
+        }
+
+        .card-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .card-price .currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Diff Badge */
+        .diff-badge {
+            padding: 0.375rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.375rem;
+        }
+
+        .diff-badge.exact { background: var(--success-soft); color: #006644; }
+        .diff-badge.bigger { background: var(--warning-soft); color: #A54800; }
+        .diff-badge.smaller { background: var(--info-soft); color: #0747A6; }
+
+        /* Card Body */
+        .card-body {
+            padding: 0 1.25rem 1rem;
+        }
+
+        .card-type {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.625rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.25px;
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .meta-badge.filiere-dc { background: var(--success-soft); color: #006644; border-color: rgba(54, 179, 126, 0.3); }
+        .meta-badge.filiere-cd { background: var(--warning-soft); color: #A54800; border-color: rgba(255, 139, 0, 0.3); }
+
+        .meta-badge.gamme-a { background: #FEF3C7; color: #92400E; border-color: #FCD34D; }
+
+        /* Card Footer */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: var(--surface);
+            border-top: 1px solid var(--border-light);
+            gap: 1rem;
+        }
+
+        .ean-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .ean-btn:hover {
+            background: var(--casto-blue);
+            border-color: var(--casto-blue);
+            color: white;
+        }
+
+        .ean-btn.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .sap-code {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Empty State Improvements */
+        .empty-state-illustration {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .empty-suggestion {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--info-soft);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: #0747A6;
+        }
+
+        /* Fade transition for live updates */
+        .results-grid.updating {
+            opacity: 0.6;
+            transition: opacity 0.15s ease;
+        }
     </style>
 </head>
 <body>
@@ -793,21 +1164,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="select-group">
-                        <label class="select-label">Tolérance</label>
-                        <div class="custom-select">
-                            <select id="tolerance">
-                                <option value="0">Exact</option>
-                                <option value="5">± 5 cm</option>
-                                <option value="10" selected>± 10 cm</option>
-                                <option value="15">± 15 cm</option>
-                                <option value="20">± 20 cm</option>
-                                <option value="30">± 30 cm</option>
-                                <option value="50">± 50 cm</option>
-                            </select>
-                        </div>
                     </div>
-                </div>
 
                 <div class="action-buttons">
                     <button class="btn btn-primary" onclick="searchWindows()">
@@ -815,6 +1172,18 @@
                         Rechercher
                     </button>
                     <button class="btn btn-ghost" onclick="clearSearch()">Effacer</button>
+                </div>
+            </div>
+
+            <div class="tolerance-slider-container">
+                <label class="slider-label">Tolérance</label>
+                <div class="slider-wrapper">
+                    <span class="slider-min">Exact</span>
+                    <div class="slider-track-container">
+                        <input type="range" id="tolerance" class="tolerance-slider" min="0" max="50" step="5" value="0">
+                        <div class="slider-value-bubble" id="slider-bubble">± 10 cm</div>
+                    </div>
+                    <span class="slider-max">± 50 cm</span>
                 </div>
             </div>
 
@@ -6255,6 +6624,37 @@ const materialLabels = { 'pvc': 'PVC', 'alu': 'Aluminium', 'bois': 'Bois' };
 
 let activeFilters = { materials: ['pvc', 'alu', 'bois'], vriOnly: false, gammeAOnly: false };
 
+// Slider setup and debounce
+let searchTimeout = null;
+const toleranceSlider = document.getElementById('tolerance');
+const sliderBubble = document.getElementById('slider-bubble');
+
+function updateSliderBubble() {
+    const val = parseInt(toleranceSlider.value);
+    sliderBubble.textContent = val === 0 ? 'Exact' : `± ${val} cm`;
+    const percent = val / 50;
+    const bubbleOffset = percent * (toleranceSlider.offsetWidth - 20);
+    sliderBubble.style.left = `calc(10px + ${bubbleOffset}px)`;
+}
+
+toleranceSlider.addEventListener('input', () => {
+    updateSliderBubble();
+    const h = document.getElementById('height').value;
+    const w = document.getElementById('width').value;
+    if (h && w) {
+        clearTimeout(searchTimeout);
+        const container = document.getElementById('results-container');
+        const grid = container.querySelector('.results-grid');
+        if (grid) grid.classList.add('updating');
+        searchTimeout = setTimeout(() => {
+            searchWindows();
+        }, 200);
+    }
+});
+
+// Initialize slider bubble position
+setTimeout(updateSliderBubble, 0);
+
 function toggleFilter(el) {
     el.classList.toggle('active');
     const mat = el.dataset.material;
@@ -6304,77 +6704,178 @@ function searchWindows() {
 
 function displayResults(results, tH, tW) {
     const container = document.getElementById('results-container');
-    document.getElementById('results-total').textContent = results.length;
+    const tolerance = parseInt(document.getElementById('tolerance').value);
 
     if (results.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="empty-icon">😕</div><h3 class="empty-title">Aucune fenêtre trouvée</h3><p class="empty-text">Essayez d\'augmenter la tolérance ou de modifier les filtres</p></div>';
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">😕</div>
+                <h3 class="empty-title">Aucune fenêtre trouvée</h3>
+                <p class="empty-text">Essayez d'augmenter la tolérance ou de modifier les filtres</p>
+                <div class="empty-suggestion">💡 Astuce : Glissez le curseur de tolérance vers la droite pour élargir la recherche</div>
+            </div>`;
+        document.getElementById('results-total').textContent = '0';
         return;
     }
 
     const exact = results.filter(r => r.h === tH && r.w === tW);
-    const bigger = results.filter(r => (r.h > tH || r.w > tW) && !(r.h === tH && r.w === tW));
-    const smaller = results.filter(r => (r.h < tH || r.w < tW) && !(r.h === tH && r.w === tW) && !bigger.includes(r));
+    const nonExact = results.filter(r => r.h !== tH || r.w !== tW);
 
     let html = '';
-    if (exact.length > 0) {
-        html += '<div class="section-header"><div class="section-icon exact">✓</div><span class="section-title">Correspondances exactes</span><span class="section-count">' + exact.length + '</span></div>';
-        html += exact.map(w => card(w, tH, tW, 'exact')).join('');
+    let displayedResults = [];
+
+    if (tolerance === 0) {
+        // Exact mode: show only exact matches
+        if (exact.length > 0) {
+            displayedResults = exact;
+            html += `<div class="results-message exact">
+                <span class="results-message-icon">✓</span>
+                ${exact.length} correspondance${exact.length > 1 ? 's' : ''} exacte${exact.length > 1 ? 's' : ''} pour ${tH} × ${tW}
+            </div>`;
+            html += exact.map(w => card(w, tH, tW, 'exact')).join('');
+        } else {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📐</div>
+                    <h3 class="empty-title">Pas de correspondance exacte</h3>
+                    <p class="empty-text">Aucune fenêtre ne correspond exactement à ${tH} × ${tW}</p>
+                    <div class="empty-suggestion">💡 Astuce : Augmentez la tolérance pour voir les dimensions proches</div>
+                </div>`;
+            document.getElementById('results-total').textContent = '0';
+            return;
+        }
+    } else {
+        // Tolerance mode: show exact matches first, then supplement with closest
+        const MAX_TOTAL = 8;
+
+        if (exact.length > 0) {
+            // Add all exact matches
+            displayedResults = [...exact];
+            html += `<div class="results-message exact">
+                <span class="results-message-icon">✓</span>
+                ${exact.length} correspondance${exact.length > 1 ? 's' : ''} exacte${exact.length > 1 ? 's' : ''}
+            </div>`;
+            html += exact.map(w => card(w, tH, tW, 'exact')).join('');
+
+            // Supplement with non-exact if room
+            const remaining = MAX_TOTAL - exact.length;
+            if (remaining > 0 && nonExact.length > 0) {
+                const supplement = nonExact.slice(0, remaining);
+                displayedResults = [...displayedResults, ...supplement];
+                html += `<div class="results-message" style="margin-top: 0.5rem;">
+                    <span class="results-message-icon">📐</span>
+                    + ${supplement.length} dimension${supplement.length > 1 ? 's' : ''} proche${supplement.length > 1 ? 's' : ''}
+                </div>`;
+                supplement.forEach(w => {
+                    const matchType = getMatchType(w, tH, tW);
+                    html += card(w, tH, tW, matchType);
+                });
+            }
+        } else {
+            // No exact matches, show closest only
+            const closest = nonExact.slice(0, MAX_TOTAL);
+            displayedResults = closest;
+            html += `<div class="results-message">
+                <span class="results-message-icon">📐</span>
+                Pas de correspondance exacte. Voici les ${closest.length} dimension${closest.length > 1 ? 's' : ''} les plus proche${closest.length > 1 ? 's' : ''} de ${tH} × ${tW}
+            </div>`;
+            closest.forEach(w => {
+                const matchType = getMatchType(w, tH, tW);
+                html += card(w, tH, tW, matchType);
+            });
+        }
     }
-    if (bigger.length > 0) {
-        html += '<div class="section-header"><div class="section-icon bigger">↗</div><span class="section-title">Dimensions supérieures</span><span class="section-count">' + bigger.length + '</span></div>';
-        html += bigger.map(w => card(w, tH, tW, 'bigger')).join('');
-    }
-    if (smaller.length > 0) {
-        html += '<div class="section-header"><div class="section-icon smaller">↙</div><span class="section-title">Dimensions inférieures</span><span class="section-count">' + smaller.length + '</span></div>';
-        html += smaller.map(w => card(w, tH, tW, 'smaller')).join('');
-    }
+
+    document.getElementById('results-total').textContent = displayedResults.length;
     container.innerHTML = '<div class="results-grid">' + html + '</div>';
+}
+
+function getMatchType(w, tH, tW) {
+    const hD = w.h - tH, wD = w.w - tW;
+    if (hD >= 0 && wD >= 0) return 'bigger';
+    if (hD <= 0 && wD <= 0) return 'smaller';
+    return 'mixed';
 }
 
 function card(win, tH, tW, matchType) {
     const hD = win.h - tH, wD = win.w - tW;
+
+    // Human-readable diff badge
     let diffBadge = '';
-    if (matchType === 'exact') diffBadge = '<span class="diff-badge exact">EXACT</span>';
-    else if (matchType === 'bigger') diffBadge = '<span class="diff-badge bigger">' + (hD >= 0 ? '+' : '') + hD + ' × ' + (wD >= 0 ? '+' : '') + wD + '</span>';
-    else diffBadge = '<span class="diff-badge smaller">' + hD + ' × ' + wD + '</span>';
+    if (matchType === 'exact') {
+        diffBadge = '<span class="diff-badge exact">✓ Exact</span>';
+    } else {
+        let diffParts = [];
+        if (hD !== 0) {
+            const hSign = hD > 0 ? '↑' : '↓';
+            diffParts.push(`${hSign} ${Math.abs(hD)}cm H`);
+        }
+        if (wD !== 0) {
+            const wSign = wD > 0 ? '↑' : '↓';
+            diffParts.push(`${wSign} ${Math.abs(wD)}cm L`);
+        }
+        const badgeClass = hD >= 0 && wD >= 0 ? 'bigger' : (hD <= 0 && wD <= 0 ? 'smaller' : 'bigger');
+        diffBadge = `<span class="diff-badge ${badgeClass}">${diffParts.join(' ')}</span>`;
+    }
 
-    const cardClass = matchType === 'exact' ? 'result-card exact-match' : 'result-card';
-    const vriTag = win.vri ? '<span class="vri-tag">⚡ VRI</span>' : '';
-    const colorTxt = win.color && win.color !== 'blanc' ? ' ' + win.color : '';
-    const filiereClass = win.filiere === 'DC' ? 'dc' : 'cross-dock';
+    // Dimension display with color coding
+    const hClass = hD === 0 ? 'dim-match' : (hD > 0 ? 'dim-bigger' : 'dim-smaller');
+    const wClass = wD === 0 ? 'dim-match' : (wD > 0 ? 'dim-bigger' : 'dim-smaller');
+    const dimensionHtml = matchType === 'exact'
+        ? `${win.h} × ${win.w}`
+        : `<span class="${hClass}">${win.h}</span> × <span class="${wClass}">${win.w}</span>`;
 
-    return '<div class="' + cardClass + '">' +
-        '<div class="card-header">' +
-            '<div class="card-dimension">' +
-                '<span class="dimension-value">' + win.h + ' × ' + win.w + '</span>' +
-                '<span class="dimension-label">Hauteur × Largeur (cm)</span>' +
-            '</div>' +
-            diffBadge +
-        '</div>' +
-        '<div class="card-body">' +
-            '<div class="card-type">' + typeLabels[win.type] + vriTag + '</div>' +
-            '<div class="card-meta">' +
-                '<span class="material-tag ' + win.material + '">' + materialLabels[win.material] + colorTxt + '</span>' +
-                '<span class="filiere-tag ' + filiereClass + '">' + win.filiere + '</span>' +
-                '<span class="gamme-text">' + win.gamme + '</span>' +
-            '</div>' +
-        '</div>' +
-        '<div class="card-footer">' +
-            '<span class="card-price">' + win.price.toFixed(2) + '<span class="currency">€</span></span>' +
-            '<div class="card-codes">' +
-                '<button class="ean-btn" onclick="copyEAN(\'' + win.ean + '\', this)"><span class="copy-icon">📋</span>' + win.ean + '</button>' +
-                '<span class="sap-code">SAP ' + win.sap + '</span>' +
-            '</div>' +
-        '</div>' +
-    '</div>';
+    // Card classes
+    let cardClasses = ['result-card', `material-${win.material}`];
+    if (matchType === 'exact') cardClasses.push('exact-match');
+    if (win.gamme === 'Gamme A') cardClasses.push('gamme-a');
+
+    // VRI ribbon
+    const vriRibbon = win.vri ? '<div class="vri-ribbon"><div class="vri-ribbon-inner">VRI</div></div>' : '';
+
+    // Meta badges
+    const filiereClass = win.filiere === 'DC' ? 'filiere-dc' : 'filiere-cd';
+    const gammeClass = win.gamme === 'Gamme A' ? 'gamme-a' : '';
+    const gammeBadge = win.gamme === 'Gamme A'
+        ? `<span class="meta-badge ${gammeClass}">Gamme A</span>`
+        : `<span class="meta-badge">${win.gamme}</span>`;
+
+    return `<div class="${cardClasses.join(' ')}">
+        ${vriRibbon}
+        <div class="material-bar ${win.material}">${materialLabels[win.material]}</div>
+        <div class="card-header">
+            <div class="card-dimension">
+                <span class="dimension-value">${dimensionHtml}</span>
+                <span class="dimension-label">H × L (cm)</span>
+                ${diffBadge}
+            </div>
+            <div class="card-price-section">
+                <span class="card-price">${win.price.toFixed(2)}<span class="currency">€</span></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-type">${typeLabels[win.type]}</div>
+            <div class="card-meta">
+                <span class="meta-badge ${filiereClass}">${win.filiere}</span>
+                ${gammeBadge}
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="ean-btn" onclick="copyEAN('${win.ean}', this)"><span class="copy-icon">📋</span>${win.ean}</button>
+            <span class="sap-code">SAP ${win.sap}</span>
+        </div>
+    </div>`;
 }
 
 function copyEAN(ean, el) {
     navigator.clipboard.writeText(ean).then(() => {
         el.classList.add('copied');
-        el.innerHTML = '<span class="copy-icon">✓</span> Copié!';
-        showToast('EAN copié: ' + ean);
-        setTimeout(() => { el.classList.remove('copied'); el.innerHTML = '<span class="copy-icon">📋</span>' + ean; }, 2000);
+        el.innerHTML = '✓ Copié!';
+        showToast(`EAN copié: ${ean}`);
+        setTimeout(() => {
+            el.classList.remove('copied');
+            el.innerHTML = `<span class="copy-icon">📋</span>${ean}`;
+        }, 2000);
     });
 }
 
@@ -6389,9 +6890,15 @@ function clearSearch() {
     document.getElementById('height').value = '';
     document.getElementById('width').value = '';
     document.getElementById('window-type').value = 'all';
-    document.getElementById('tolerance').value = '10';
+    document.getElementById('tolerance').value = '0';
+    updateSliderBubble();
     document.getElementById('results-total').textContent = '0';
-    document.getElementById('results-container').innerHTML = '<div class="empty-state"><div class="empty-icon">🪟</div><h3 class="empty-title">Entrez les dimensions recherchées</h3><p class="empty-text">Les résultats s\'afficheront avec les correspondances exactes et proches</p></div>';
+    document.getElementById('results-container').innerHTML = `
+        <div class="empty-state">
+            <div class="empty-icon">🪟</div>
+            <h3 class="empty-title">Entrez les dimensions recherchées</h3>
+            <p class="empty-text">Les résultats s'afficheront avec les correspondances exactes ou les plus proches</p>
+        </div>`;
 }
 
 document.getElementById('height').addEventListener('keypress', e => { if (e.key === 'Enter') { document.getElementById('width').focus(); } });
