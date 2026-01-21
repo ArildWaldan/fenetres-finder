@@ -1,0 +1,6401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fenêtres | Castorama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --casto-blue: #0052CC;
+            --casto-blue-dark: #003d99;
+            --casto-yellow: #FFD100;
+            --casto-yellow-soft: #FFF3B8;
+            --surface: #FAFBFC;
+            --surface-elevated: #FFFFFF;
+            --text-primary: #1A1D21;
+            --text-secondary: #5E6C84;
+            --text-muted: #97A0AF;
+            --border: #DFE1E6;
+            --border-light: #EBECF0;
+            --success: #36B37E;
+            --success-soft: #E3FCEF;
+            --warning: #FF8B00;
+            --warning-soft: #FFF4E5;
+            --info: #0065FF;
+            --info-soft: #DEEBFF;
+            --pvc-color: #0065FF;
+            --alu-color: #505F79;
+            --bois-color: #A35200;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 1px 2px rgba(9,30,66,0.08);
+            --shadow-md: 0 4px 12px rgba(9,30,66,0.08), 0 0 1px rgba(9,30,66,0.1);
+            --shadow-lg: 0 8px 24px rgba(9,30,66,0.12), 0 0 1px rgba(9,30,66,0.1);
+            --shadow-focus: 0 0 0 3px rgba(0,82,204,0.2);
+            --transition-fast: 120ms ease;
+            --transition-normal: 200ms ease;
+            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--casto-blue);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,82,204,0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            background: var(--casto-yellow);
+            color: var(--casto-blue);
+            font-weight: 700;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            letter-spacing: -0.25px;
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 28px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-title {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* ===== SEARCH CARD ===== */
+        .search-card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: end;
+        }
+
+        @media (max-width: 900px) {
+            .search-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Dimension Input Group */
+        .dimension-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .input-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dimension-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 0.25rem;
+            transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+        }
+
+        .dimension-inputs:focus-within {
+            border-color: var(--casto-blue);
+            box-shadow: var(--shadow-focus);
+        }
+
+        .dim-input {
+            width: 100px;
+            padding: 0.875rem 1rem;
+            border: none;
+            background: transparent;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .dim-input:focus { outline: none; }
+        .dim-input::placeholder { color: var(--text-muted); }
+
+        .dim-separator {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            padding: 0 0.25rem;
+        }
+
+        .dim-unit {
+            padding: 0.875rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: var(--border-light);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        /* Options Row */
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 160px;
+        }
+
+        .select-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .custom-select {
+            position: relative;
+        }
+
+        .custom-select select {
+            appearance: none;
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface-elevated);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .custom-select select:hover { border-color: var(--text-muted); }
+        .custom-select select:focus { outline: none; border-color: var(--casto-blue); box-shadow: var(--shadow-focus); }
+
+        .custom-select::after {
+            content: '';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--casto-blue);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,82,204,0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--casto-blue-dark);
+            box-shadow: 0 4px 8px rgba(0,82,204,0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--surface);
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+
+        .btn-icon {
+            font-size: 1.125rem;
+        }
+
+        /* ===== FILTERS BAR ===== */
+        .filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.5rem;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .chip-group {
+            display: flex;
+            gap: 0.375rem;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 0.875rem;
+            border: 2px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--surface-elevated);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+
+        .chip:hover { border-color: var(--text-muted); }
+
+        .chip.active {
+            border-color: currentColor;
+            background: currentColor;
+            color: white;
+        }
+
+        .chip.active .chip-dot { background: rgba(255,255,255,0.9); }
+
+        .chip-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .chip[data-material="pvc"] { --chip-color: var(--pvc-color); }
+        .chip[data-material="alu"] { --chip-color: var(--alu-color); }
+        .chip[data-material="bois"] { --chip-color: var(--bois-color); }
+        .chip[data-material].active { background: var(--chip-color); border-color: var(--chip-color); }
+
+        .chip[data-option].active {
+            background: var(--casto-blue);
+            border-color: var(--casto-blue);
+        }
+
+        /* ===== RESULTS SECTION ===== */
+        .results-section {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .results-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--casto-blue);
+            color: white;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .results-badge-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+
+        /* Results Container */
+        #results-container {
+            min-height: 200px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .results-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Section Headers */
+        .section-header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 0 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .section-header:first-child { margin-top: 0; padding-top: 0; }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+        }
+
+        .section-icon.exact { background: var(--success-soft); }
+        .section-icon.bigger { background: var(--warning-soft); }
+        .section-icon.smaller { background: var(--info-soft); }
+
+        .section-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-count {
+            margin-left: auto;
+            padding: 0.25rem 0.625rem;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ===== RESULT CARD ===== */
+        .result-card {
+            background: var(--surface-elevated);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            cursor: default;
+        }
+
+        .result-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .result-card.exact-match {
+            border-color: var(--success);
+            border-width: 2px;
+        }
+
+        .result-card.exact-match .card-header {
+            background: linear-gradient(135deg, var(--success-soft) 0%, transparent 100%);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1.25rem 1.25rem 1rem;
+            gap: 1rem;
+        }
+
+        .card-dimension {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .dimension-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--casto-blue);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .dimension-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .diff-badge {
+            padding: 0.375rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+
+        .diff-badge.exact { background: var(--success-soft); color: #006644; }
+        .diff-badge.bigger { background: var(--warning-soft); color: #A54800; }
+        .diff-badge.smaller { background: var(--info-soft); color: #0747A6; }
+
+        .card-body {
+            padding: 0 1.25rem 1rem;
+        }
+
+        .card-type {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .vri-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .material-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .material-tag.pvc { background: var(--pvc-color); }
+        .material-tag.alu { background: var(--alu-color); }
+        .material-tag.bois { background: var(--bois-color); }
+
+        .filiere-tag {
+            padding: 0.375rem 0.625rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .filiere-tag.dc { background: var(--success-soft); color: #006644; }
+        .filiere-tag.cross-dock { background: var(--warning-soft); color: #A54800; }
+
+        .gamme-text {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: var(--surface);
+            border-top: 1px solid var(--border-light);
+            gap: 1rem;
+        }
+
+        .card-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card-price .currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .card-codes {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.125rem;
+        }
+
+        .ean-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .ean-btn:hover {
+            background: var(--casto-blue);
+            border-color: var(--casto-blue);
+            color: white;
+        }
+
+        .ean-btn.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .ean-btn .copy-icon { font-size: 0.875rem; }
+
+        .sap-code {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            max-width: 320px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: all var(--transition-smooth);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            animation: fadeInUp 0.4s ease backwards;
+        }
+
+        .results-grid .result-card:nth-child(1) { animation-delay: 0ms; }
+        .results-grid .result-card:nth-child(2) { animation-delay: 50ms; }
+        .results-grid .result-card:nth-child(3) { animation-delay: 100ms; }
+        .results-grid .result-card:nth-child(4) { animation-delay: 150ms; }
+        .results-grid .result-card:nth-child(5) { animation-delay: 200ms; }
+        .results-grid .result-card:nth-child(6) { animation-delay: 250ms; }
+        .results-grid .result-card:nth-child(7) { animation-delay: 300ms; }
+        .results-grid .result-card:nth-child(8) { animation-delay: 350ms; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">CASTO</span>
+            <span class="logo-text">rama</span>
+        </div>
+        <div class="header-divider"></div>
+        <span class="header-title">Recherche Fenêtres</span>
+    </header>
+
+    <main class="main">
+        <section class="search-card">
+            <div class="search-grid">
+                <div class="dimension-group">
+                    <label class="input-label">Dimensions client</label>
+                    <div class="dimension-inputs">
+                        <input type="number" class="dim-input" id="height" placeholder="H" min="1">
+                        <span class="dim-separator">×</span>
+                        <input type="number" class="dim-input" id="width" placeholder="L" min="1">
+                        <span class="dim-unit">cm</span>
+                    </div>
+                </div>
+
+                <div class="options-row">
+                    <div class="select-group">
+                        <label class="select-label">Type</label>
+                        <div class="custom-select">
+                            <select id="window-type">
+                                <option value="all">Tous types</option>
+                                <option value="abattant">Châssis abattant</option>
+                                <option value="1vantail">1 vantail</option>
+                                <option value="2vantaux">2 vantaux</option>
+                                <option value="porte-fenetre">Porte-fenêtre</option>
+                                <option value="coulissante">Coulissante</option>
+                                <option value="baie">Baie coulissante</option>
+                                <option value="fixe">Châssis fixe</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="select-group">
+                        <label class="select-label">Tolérance</label>
+                        <div class="custom-select">
+                            <select id="tolerance">
+                                <option value="0">Exact</option>
+                                <option value="5">± 5 cm</option>
+                                <option value="10" selected>± 10 cm</option>
+                                <option value="15">± 15 cm</option>
+                                <option value="20">± 20 cm</option>
+                                <option value="30">± 30 cm</option>
+                                <option value="50">± 50 cm</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="searchWindows()">
+                        <span class="btn-icon">🔍</span>
+                        Rechercher
+                    </button>
+                    <button class="btn btn-ghost" onclick="clearSearch()">Effacer</button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="filter-section">
+                    <span class="filter-label">Matériaux</span>
+                    <div class="chip-group">
+                        <div class="chip active" data-material="pvc" onclick="toggleFilter(this)">
+                            <span class="chip-dot"></span>PVC
+                        </div>
+                        <div class="chip active" data-material="alu" onclick="toggleFilter(this)">
+                            <span class="chip-dot"></span>Alu
+                        </div>
+                        <div class="chip active" data-material="bois" onclick="toggleFilter(this)">
+                            <span class="chip-dot"></span>Bois
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <span class="filter-label">Options</span>
+                    <div class="chip-group">
+                        <div class="chip" data-option="vri" onclick="toggleFilter(this)">VRI uniquement</div>
+                        <div class="chip" data-option="gamme-a" onclick="toggleFilter(this)">Gamme A</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section">
+            <div class="results-header">
+                <h2 class="results-title">Résultats</h2>
+                <div class="results-badge">
+                    <span class="results-badge-number" id="results-total">0</span>
+                    <span>fenêtres</span>
+                </div>
+            </div>
+            <div id="results-container">
+                <div class="empty-state">
+                    <div class="empty-icon">🪟</div>
+                    <h3 class="empty-title">Entrez les dimensions recherchées</h3>
+                    <p class="empty-text">Les résultats s'afficheront avec les correspondances exactes et proches</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// WINDOW DATABASE - Replace this JSON array with full data
+// ============================================================
+const windowDatabase = 
+[
+  {
+    "ean": "5036581078942",
+    "sap": "101061855",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 82.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581078959",
+    "sap": "101061856",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 80,
+    "vri": false,
+    "price": 94.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581078935",
+    "sap": "101061853",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 99.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581078966",
+    "sap": "101061854",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 120,
+    "vri": false,
+    "price": 109,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085278",
+    "sap": "101061857",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 100,
+    "vri": false,
+    "price": 124,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581078973",
+    "sap": "101045420",
+    "type": "abattant",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 120,
+    "vri": false,
+    "price": 139,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077365",
+    "sap": "101061827",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 75.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077358",
+    "sap": "101061828",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 75.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077549",
+    "sap": "101045438",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 92.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581077532",
+    "sap": "101045439",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 92.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079291",
+    "sap": "101045440",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 40,
+    "vri": false,
+    "price": 84.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079284",
+    "sap": "101045441",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 40,
+    "vri": false,
+    "price": 84.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079338",
+    "sap": "101045442",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 50,
+    "vri": false,
+    "price": 95.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079321",
+    "sap": "101045443",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 50,
+    "vri": false,
+    "price": 95.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079376",
+    "sap": "101061829",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 60,
+    "vri": false,
+    "price": 97.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079369",
+    "sap": "101061830",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 60,
+    "w": 60,
+    "vri": false,
+    "price": 97.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079550",
+    "sap": "101061831",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 89.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079543",
+    "sap": "101061832",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 89.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079710",
+    "sap": "101061837",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 40,
+    "vri": false,
+    "price": 92.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079703",
+    "sap": "101061838",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 40,
+    "vri": false,
+    "price": 92.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079871",
+    "sap": "101045445",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 50,
+    "vri": false,
+    "price": 99.9,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079864",
+    "sap": "101045446",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 50,
+    "vri": false,
+    "price": 99.9,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079918",
+    "sap": "101061839",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 99.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079901",
+    "sap": "101061840",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 99.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080099",
+    "sap": "101061841",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 80,
+    "vri": false,
+    "price": 105,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080082",
+    "sap": "101061842",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 80,
+    "vri": false,
+    "price": 105,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080556",
+    "sap": "101061848",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 60,
+    "vri": false,
+    "price": 109,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080549",
+    "sap": "101061849",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 60,
+    "vri": false,
+    "price": 109,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083427",
+    "sap": "101061850",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 115,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083410",
+    "sap": "101061851",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 115,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581074296",
+    "sap": "101045421",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 60,
+    "vri": false,
+    "price": 115,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581074289",
+    "sap": "101045422",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 60,
+    "vri": false,
+    "price": 115,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581074852",
+    "sap": "101045423",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 80,
+    "vri": false,
+    "price": 129,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581074845",
+    "sap": "101045424",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 80,
+    "vri": false,
+    "price": 129,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581075446",
+    "sap": "101061805",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 60,
+    "vri": false,
+    "price": 119,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581075439",
+    "sap": "101061806",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 60,
+    "vri": false,
+    "price": 119,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581075606",
+    "sap": "101045426",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 80,
+    "vri": false,
+    "price": 134,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581075590",
+    "sap": "101045427",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 80,
+    "vri": false,
+    "price": 134,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581076566",
+    "sap": "101045430",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 80,
+    "vri": false,
+    "price": 144,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581076559",
+    "sap": "101045431",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 80,
+    "vri": false,
+    "price": 144,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581077389",
+    "sap": "101045403",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": true,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077372",
+    "sap": "101045404",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": true,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079574",
+    "sap": "101045407",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": true,
+    "price": 219,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079567",
+    "sap": "101045408",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": true,
+    "price": 219,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079734",
+    "sap": "101045409",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 40,
+    "vri": true,
+    "price": 229,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079727",
+    "sap": "101045410",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 40,
+    "vri": true,
+    "price": 229,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079932",
+    "sap": "101045411",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": true,
+    "price": 309,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581079925",
+    "sap": "101045412",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": true,
+    "price": 309,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080112",
+    "sap": "101045413",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 80,
+    "vri": true,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080105",
+    "sap": "101045414",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 80,
+    "vri": true,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080570",
+    "sap": "101045416",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 60,
+    "vri": true,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080563",
+    "sap": "101045417",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 60,
+    "vri": true,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083441",
+    "sap": "101045418",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083434",
+    "sap": "101045419",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581075453",
+    "sap": "101045391",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 60,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581075460",
+    "sap": "101045393",
+    "type": "1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 60,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080952",
+    "sap": "101045447",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 80,
+    "vri": false,
+    "price": 124,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080587",
+    "sap": "101061833",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 159,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080709",
+    "sap": "101061835",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 120,
+    "vri": false,
+    "price": 169,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080914",
+    "sap": "101045444",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 140,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080815",
+    "sap": "101061852",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 129,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080624",
+    "sap": "101061843",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 100,
+    "vri": false,
+    "price": 175,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080617",
+    "sap": "101061845",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 120,
+    "vri": false,
+    "price": 189,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080907",
+    "sap": "101061847",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 140,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080822",
+    "sap": "101061801",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 80,
+    "vri": false,
+    "price": 149,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080938",
+    "sap": "101045425",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 90,
+    "vri": false,
+    "price": 169,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080761",
+    "sap": "101061799",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 100,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080693",
+    "sap": "101061800",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 120,
+    "vri": false,
+    "price": 195,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080785",
+    "sap": "101061807",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 80,
+    "vri": false,
+    "price": 159,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085483",
+    "sap": "101045428",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 90,
+    "vri": false,
+    "price": 175,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080631",
+    "sap": "101061802",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 185,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080648",
+    "sap": "101061803",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 199,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080679",
+    "sap": "101061804",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 140,
+    "vri": false,
+    "price": 225,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080884",
+    "sap": "101061811",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 80,
+    "vri": false,
+    "price": 169,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085490",
+    "sap": "101045429",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 90,
+    "vri": false,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080662",
+    "sap": "101061808",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080655",
+    "sap": "101061809",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 209,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080853",
+    "sap": "101061810",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 140,
+    "vri": false,
+    "price": 229,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080891",
+    "sap": "101061815",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 80,
+    "vri": false,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080860",
+    "sap": "101061816",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 90,
+    "vri": false,
+    "price": 195,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080723",
+    "sap": "101061812",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 100,
+    "vri": false,
+    "price": 205,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080594",
+    "sap": "101061813",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 219,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080600",
+    "sap": "101061814",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 140,
+    "vri": false,
+    "price": 249,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080846",
+    "sap": "101061820",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 80,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080778",
+    "sap": "101061821",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 90,
+    "vri": false,
+    "price": 205,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080730",
+    "sap": "101061817",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 100,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080839",
+    "sap": "101061818",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 120,
+    "vri": false,
+    "price": 229,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080969",
+    "sap": "101061819",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 140,
+    "vri": false,
+    "price": 255,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080792",
+    "sap": "101045433",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 80,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080877",
+    "sap": "101061823",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 90,
+    "vri": false,
+    "price": 205,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080716",
+    "sap": "101061822",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 100,
+    "vri": false,
+    "price": 219,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080921",
+    "sap": "101045432",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 120,
+    "vri": false,
+    "price": 239,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080808",
+    "sap": "101045435",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 80,
+    "vri": false,
+    "price": 215,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080754",
+    "sap": "101061825",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 90,
+    "vri": false,
+    "price": 219,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080686",
+    "sap": "101061824",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 100,
+    "vri": false,
+    "price": 229,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080945",
+    "sap": "101045434",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 120,
+    "vri": false,
+    "price": 255,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080747",
+    "sap": "101061826",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 175,
+    "w": 100,
+    "vri": false,
+    "price": 245,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085513",
+    "sap": "101045436",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 185,
+    "w": 100,
+    "vri": false,
+    "price": 255,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085520",
+    "sap": "101045437",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 195,
+    "w": 100,
+    "vri": false,
+    "price": 269,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581080976",
+    "sap": "101061834",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 100,
+    "vri": true,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081096",
+    "sap": "101061836",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 75,
+    "w": 120,
+    "vri": true,
+    "price": 409,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081010",
+    "sap": "101061844",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 100,
+    "vri": true,
+    "price": 409,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081003",
+    "sap": "101061846",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 120,
+    "vri": true,
+    "price": 419,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081218",
+    "sap": "101045415",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 95,
+    "w": 140,
+    "vri": true,
+    "price": 459,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081157",
+    "sap": "101061788",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 100,
+    "vri": true,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081089",
+    "sap": "101061789",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 105,
+    "w": 120,
+    "vri": true,
+    "price": 429,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081027",
+    "sap": "101061790",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 100,
+    "vri": true,
+    "price": 429,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081034",
+    "sap": "101061791",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": true,
+    "price": 439,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081065",
+    "sap": "101061792",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 115,
+    "w": 140,
+    "vri": true,
+    "price": 469,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081195",
+    "sap": "101045394",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 80,
+    "vri": true,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081058",
+    "sap": "101061793",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 100,
+    "vri": true,
+    "price": 439,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081041",
+    "sap": "101061794",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 125,
+    "w": 120,
+    "vri": true,
+    "price": 449,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081201",
+    "sap": "101045395",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 80,
+    "vri": true,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081171",
+    "sap": "101045396",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 90,
+    "vri": true,
+    "price": 429,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081119",
+    "sap": "101061795",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 100,
+    "vri": true,
+    "price": 449,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080983",
+    "sap": "101061796",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 120,
+    "vri": true,
+    "price": 459,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080990",
+    "sap": "101061797",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 135,
+    "w": 140,
+    "vri": true,
+    "price": 499,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081164",
+    "sap": "101045398",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 90,
+    "vri": true,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081126",
+    "sap": "101045397",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 145,
+    "w": 100,
+    "vri": true,
+    "price": 459,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081188",
+    "sap": "101045400",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 90,
+    "vri": true,
+    "price": 449,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081102",
+    "sap": "101045399",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 155,
+    "w": 100,
+    "vri": true,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081140",
+    "sap": "101045401",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 90,
+    "vri": true,
+    "price": 459,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581081072",
+    "sap": "101061798",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 165,
+    "w": 100,
+    "vri": true,
+    "price": 479,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081133",
+    "sap": "101045402",
+    "type": "2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 175,
+    "w": 100,
+    "vri": true,
+    "price": 489,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581076924",
+    "sap": "101061783",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 80,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581076917",
+    "sap": "101061784",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 80,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077181",
+    "sap": "101045383",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 80,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581077174",
+    "sap": "101045384",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 80,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581076931",
+    "sap": "101045386",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 80,
+    "vri": true,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581076948",
+    "sap": "101045389",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 80,
+    "vri": true,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581077198",
+    "sap": "101045387",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 80,
+    "vri": true,
+    "price": 479,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581077204",
+    "sap": "101045390",
+    "type": "porte-fenetre-1vantail",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 80,
+    "vri": true,
+    "price": 479,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083632",
+    "sap": "101045381",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 100,
+    "vri": false,
+    "price": 299,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083649",
+    "sap": "101061782",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 120,
+    "vri": false,
+    "price": 319,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083656",
+    "sap": "101045382",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 100,
+    "vri": false,
+    "price": 309,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083663",
+    "sap": "101061785",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 120,
+    "vri": false,
+    "price": 329,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083670",
+    "sap": "101061786",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 140,
+    "vri": false,
+    "price": 349,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085537",
+    "sap": "101045385",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 225,
+    "w": 120,
+    "vri": false,
+    "price": 379,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083687",
+    "sap": "101045388",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 205,
+    "w": 120,
+    "vri": true,
+    "price": 599,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083694",
+    "sap": "101061781",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 120,
+    "vri": true,
+    "price": 619,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083700",
+    "sap": "101061787",
+    "type": "porte-fenetre-2vantaux",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 215,
+    "w": 140,
+    "vri": true,
+    "price": 639,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5059340100159",
+    "sap": "101092789",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 54.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084493",
+    "sap": "101061995",
+    "type": "habillage",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 3.5,
+    "w": 3.5,
+    "vri": false,
+    "price": 9.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084509",
+    "sap": "101061996",
+    "type": "habillage",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 6,
+    "w": 4,
+    "vri": false,
+    "price": 10.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084516",
+    "sap": "101061994",
+    "type": "habillage",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 9,
+    "w": 9,
+    "vri": false,
+    "price": 17.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084691",
+    "sap": "101061981",
+    "type": "bavette",
+    "material": "pvc",
+    "color": "blanc",
+    "h": 10,
+    "w": 10,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000904",
+    "sap": "101055385",
+    "type": "fixation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 3.95,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085070",
+    "sap": "101055394",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 8.5,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085094",
+    "sap": "101055395",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084967",
+    "sap": "101061982",
+    "type": "elargisseur",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 29.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084998",
+    "sap": "101061983",
+    "type": "elargisseur",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 44.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085018",
+    "sap": "101061984",
+    "type": "elargisseur",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 59.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085230",
+    "sap": "101061985",
+    "type": "tapee-isolation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 30.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085247",
+    "sap": "101061986",
+    "type": "tapee-isolation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 36.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085254",
+    "sap": "101061987",
+    "type": "tapee-isolation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 38.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085261",
+    "sap": "101061988",
+    "type": "tapee-isolation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 43.5,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084806",
+    "sap": "101061989",
+    "type": "tapee-isolation",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 47.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084608",
+    "sap": "101061990",
+    "type": "champlat",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 14.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340073453",
+    "sap": "101061991",
+    "type": "champlat",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 7.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084592",
+    "sap": "101061992",
+    "type": "champlat",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 9.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340100142",
+    "sap": "101092790",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 47.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340118291",
+    "sap": "101092791",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 4.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085087",
+    "sap": "101055387",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 9.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085100",
+    "sap": "101055389",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085216",
+    "sap": "101055390",
+    "type": "poignee",
+    "material": "pvc",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 31.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079093",
+    "sap": "101112394",
+    "type": "abattant",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 189,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079109",
+    "sap": "101112395",
+    "type": "abattant",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 80,
+    "vri": false,
+    "price": 204,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079086",
+    "sap": "101112392",
+    "type": "abattant",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 224,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079116",
+    "sap": "101112393",
+    "type": "abattant",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 120,
+    "vri": false,
+    "price": 239,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079048",
+    "sap": "101112398",
+    "type": "abattant",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079055",
+    "sap": "101112399",
+    "type": "abattant",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 80,
+    "vri": false,
+    "price": 204,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079031",
+    "sap": "101112396",
+    "type": "abattant",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 224,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077488",
+    "sap": "101054542",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 164,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077471",
+    "sap": "101054543",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 164,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079666",
+    "sap": "101054546",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079673",
+    "sap": "101120101",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080037",
+    "sap": "101112312",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 199,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080020",
+    "sap": "101112313",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 199,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083540",
+    "sap": "101112316",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 244,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083533",
+    "sap": "101112317",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 244,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079680",
+    "sap": "101054493",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 65,
+    "w": 40,
+    "vri": true,
+    "price": 299,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080051",
+    "sap": "101112338",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 60,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080044",
+    "sap": "101112339",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 60,
+    "vri": true,
+    "price": 349,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083564",
+    "sap": "101054498",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 80,
+    "vri": true,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083557",
+    "sap": "101054499",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 80,
+    "vri": true,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581075583",
+    "sap": "101054486",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 60,
+    "vri": true,
+    "price": 389,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581075576",
+    "sap": "101054487",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 60,
+    "vri": true,
+    "price": 389,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077440",
+    "sap": "101120081",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 164,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077433",
+    "sap": "101120082",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 164,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079635",
+    "sap": "101120091",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079628",
+    "sap": "101120092",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 65,
+    "w": 40,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079987",
+    "sap": "101112319",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079994",
+    "sap": "101112323",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 199,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083496",
+    "sap": "101112321",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 244,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083502",
+    "sap": "101112325",
+    "type": "1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 95,
+    "w": 80,
+    "vri": false,
+    "price": 244,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082369",
+    "sap": "101112373",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082390",
+    "sap": "101112376",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 120,
+    "vri": false,
+    "price": 369,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082543",
+    "sap": "101112363",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 105,
+    "w": 100,
+    "vri": false,
+    "price": 374,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082475",
+    "sap": "101112364",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 105,
+    "w": 120,
+    "vri": false,
+    "price": 389,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082413",
+    "sap": "101112365",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 384,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082420",
+    "sap": "101112366",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082444",
+    "sap": "101112368",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082437",
+    "sap": "101112369",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082505",
+    "sap": "101112370",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 100,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082499",
+    "sap": "101054535",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 155,
+    "w": 100,
+    "vri": false,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082611",
+    "sap": "101112354",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 100,
+    "vri": true,
+    "price": 479,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082734",
+    "sap": "101112355",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 120,
+    "vri": true,
+    "price": 499,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082659",
+    "sap": "101112357",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 100,
+    "vri": true,
+    "price": 514,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082642",
+    "sap": "101112358",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 120,
+    "vri": true,
+    "price": 539,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082796",
+    "sap": "101112326",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 105,
+    "w": 100,
+    "vri": true,
+    "price": 529,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082727",
+    "sap": "101112327",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 105,
+    "w": 120,
+    "vri": true,
+    "price": 569,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082666",
+    "sap": "101112328",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 100,
+    "vri": true,
+    "price": 549,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082673",
+    "sap": "101112329",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 120,
+    "vri": true,
+    "price": 589,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082697",
+    "sap": "101112331",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 100,
+    "vri": true,
+    "price": 579,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082680",
+    "sap": "101112332",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 120,
+    "vri": true,
+    "price": 599,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082758",
+    "sap": "101112333",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 100,
+    "vri": true,
+    "price": 609,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082628",
+    "sap": "101112334",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 120,
+    "vri": true,
+    "price": 629,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082765",
+    "sap": "101120102",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 145,
+    "w": 100,
+    "vri": true,
+    "price": 624,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082710",
+    "sap": "101120104",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 165,
+    "w": 100,
+    "vri": true,
+    "price": 659,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081720",
+    "sap": "101112388",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 329,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081768",
+    "sap": "101112390",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 95,
+    "w": 100,
+    "vri": false,
+    "price": 354,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081782",
+    "sap": "101112380",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081805",
+    "sap": "101112382",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 399,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581081799",
+    "sap": "101112383",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082147",
+    "sap": "101112362",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 95,
+    "w": 120,
+    "vri": true,
+    "price": 539,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082222",
+    "sap": "101112341",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 105,
+    "w": 120,
+    "vri": true,
+    "price": 569,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082161",
+    "sap": "101112342",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 100,
+    "vri": true,
+    "price": 549,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082178",
+    "sap": "101112343",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": true,
+    "price": 589,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082192",
+    "sap": "101112345",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 100,
+    "vri": true,
+    "price": 579,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082123",
+    "sap": "101112348",
+    "type": "2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 135,
+    "w": 120,
+    "vri": true,
+    "price": 629,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077044",
+    "sap": "101112291",
+    "type": "porte-fenetre-1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 205,
+    "w": 80,
+    "vri": false,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077303",
+    "sap": "101112293",
+    "type": "porte-fenetre-1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 80,
+    "vri": false,
+    "price": 449,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077310",
+    "sap": "101112285",
+    "type": "porte-fenetre-1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 80,
+    "vri": true,
+    "price": 629,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077327",
+    "sap": "101112286",
+    "type": "porte-fenetre-1vantail",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 80,
+    "vri": true,
+    "price": 629,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077280",
+    "sap": "101112282",
+    "type": "porte-fenetre-1vantail",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 80,
+    "vri": true,
+    "price": 629,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083892",
+    "sap": "101112295",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 120,
+    "vri": false,
+    "price": 649,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083908",
+    "sap": "101112296",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 140,
+    "vri": false,
+    "price": 679,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083922",
+    "sap": "101112307",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 120,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083939",
+    "sap": "101112308",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 140,
+    "vri": true,
+    "price": 1099,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083830",
+    "sap": "101112304",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 120,
+    "vri": false,
+    "price": 649,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083847",
+    "sap": "101112305",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 140,
+    "vri": false,
+    "price": 599,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083861",
+    "sap": "101112309",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 120,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083878",
+    "sap": "101112310",
+    "type": "porte-fenetre-2vantaux",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 140,
+    "vri": true,
+    "price": 1049,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083120",
+    "sap": "101051529",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 329,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083199",
+    "sap": "101051530",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 120,
+    "vri": false,
+    "price": 339,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083205",
+    "sap": "101051518",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 100,
+    "w": 100,
+    "vri": false,
+    "price": 359,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083212",
+    "sap": "101051519",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 100,
+    "w": 120,
+    "vri": false,
+    "price": 399,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083151",
+    "sap": "101051520",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 379,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083168",
+    "sap": "101051521",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 409,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083229",
+    "sap": "101051522",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 120,
+    "w": 100,
+    "vri": false,
+    "price": 389,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083236",
+    "sap": "101051523",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 120,
+    "w": 120,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083182",
+    "sap": "101051524",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083175",
+    "sap": "101051525",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083243",
+    "sap": "101051526",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 100,
+    "vri": false,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083137",
+    "sap": "101051527",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083144",
+    "sap": "101051528",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 140,
+    "vri": false,
+    "price": 499,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581082994",
+    "sap": "101051542",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 329,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083069",
+    "sap": "101051543",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 120,
+    "vri": false,
+    "price": 339,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083076",
+    "sap": "101051531",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 100,
+    "w": 100,
+    "vri": false,
+    "price": 359,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083083",
+    "sap": "101051532",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 100,
+    "w": 120,
+    "vri": false,
+    "price": 399,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083021",
+    "sap": "101051533",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 379,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083038",
+    "sap": "101051534",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 409,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083090",
+    "sap": "101051535",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 120,
+    "w": 100,
+    "vri": false,
+    "price": 389,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083106",
+    "sap": "101051536",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 120,
+    "w": 120,
+    "vri": false,
+    "price": 419,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083052",
+    "sap": "101051537",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 419,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083045",
+    "sap": "101051538",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083113",
+    "sap": "101051539",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 135,
+    "w": 100,
+    "vri": false,
+    "price": 439,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083007",
+    "sap": "101051540",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 469,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581083014",
+    "sap": "101051541",
+    "type": "fenetre-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 135,
+    "w": 140,
+    "vri": false,
+    "price": 499,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084172",
+    "sap": "101051501",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 200,
+    "w": 240,
+    "vri": false,
+    "price": 699,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084189",
+    "sap": "101051502",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 180,
+    "vri": false,
+    "price": 649,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084196",
+    "sap": "101051503",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 240,
+    "vri": false,
+    "price": 739,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084202",
+    "sap": "101051486",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 200,
+    "w": 240,
+    "vri": true,
+    "price": 969,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084264",
+    "sap": "101051487",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 200,
+    "w": 240,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084219",
+    "sap": "101051488",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 180,
+    "vri": true,
+    "price": 879,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084271",
+    "sap": "101051489",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 180,
+    "vri": true,
+    "price": 899,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084226",
+    "sap": "101051490",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 240,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084288",
+    "sap": "101051491",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 240,
+    "vri": true,
+    "price": 1049,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "8682530606116",
+    "sap": "101051498",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 200,
+    "w": 240,
+    "vri": false,
+    "price": 549,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084103",
+    "sap": "101051504",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 200,
+    "w": 240,
+    "vri": false,
+    "price": 699,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "8682530606109",
+    "sap": "101051499",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 180,
+    "vri": false,
+    "price": 499,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084110",
+    "sap": "101051505",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 180,
+    "vri": false,
+    "price": 649,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084134",
+    "sap": "101051506",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 210,
+    "vri": false,
+    "price": 699,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "8682530606123",
+    "sap": "101051500",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 240,
+    "vri": false,
+    "price": 559,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084127",
+    "sap": "101051507",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 240,
+    "vri": false,
+    "price": 739,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084141",
+    "sap": "101051492",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 200,
+    "w": 240,
+    "vri": true,
+    "price": 969,
+    "gamme": "Gamme B",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084233",
+    "sap": "101051493",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 200,
+    "w": 240,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084158",
+    "sap": "101051494",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 180,
+    "vri": true,
+    "price": 879,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084240",
+    "sap": "101051495",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 180,
+    "vri": true,
+    "price": 899,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084165",
+    "sap": "101051496",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 240,
+    "vri": true,
+    "price": 999,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084257",
+    "sap": "101051497",
+    "type": "baie-coulissante",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 240,
+    "vri": true,
+    "price": 1049,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5059340822686",
+    "sap": "101361075",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 129,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822815",
+    "sap": "101240036",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 169,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822761",
+    "sap": "101219070",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 60,
+    "w": 150,
+    "vri": false,
+    "price": 219,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822822",
+    "sap": "101394993",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 155,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822778",
+    "sap": "101396960",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 199,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822709",
+    "sap": "101362182",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 95,
+    "w": 100,
+    "vri": false,
+    "price": 215,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822747",
+    "sap": "101329304",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 105,
+    "w": 120,
+    "vri": false,
+    "price": 249,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822808",
+    "sap": "101268068",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 235,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822884",
+    "sap": "101219071",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 229,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822877",
+    "sap": "101329305",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 269,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822785",
+    "sap": "101397611",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 279,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822853",
+    "sap": "101411495",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 215,
+    "w": 60,
+    "vri": false,
+    "price": 269,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822723",
+    "sap": "101219069",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 129,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822846",
+    "sap": "101217254",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 169,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822839",
+    "sap": "101407204",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 60,
+    "w": 150,
+    "vri": false,
+    "price": 219,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822754",
+    "sap": "101304432",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 155,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822679",
+    "sap": "101268067",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 199,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822716",
+    "sap": "101395397",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 95,
+    "w": 100,
+    "vri": false,
+    "price": 209,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822907",
+    "sap": "101396961",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 105,
+    "w": 120,
+    "vri": false,
+    "price": 245,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822860",
+    "sap": "101323772",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 235,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822792",
+    "sap": "101411494",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 255,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822730",
+    "sap": "101367633",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 269,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822891",
+    "sap": "101219399",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 279,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5059340822693",
+    "sap": "101285839",
+    "type": "chassis-fixe",
+    "material": "alu",
+    "color": "blanc",
+    "h": 215,
+    "w": 60,
+    "vri": false,
+    "price": 269,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084745",
+    "sap": "101044307",
+    "type": "habillage",
+    "material": "alu",
+    "color": "anthracite",
+    "h": 6,
+    "w": 3,
+    "vri": false,
+    "price": 30.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084790",
+    "sap": "101044294",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 54.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084943",
+    "sap": "101044297",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 41.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084950",
+    "sap": "101044298",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 46.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084936",
+    "sap": "101044299",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084776",
+    "sap": "101044303",
+    "type": "champlat",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 22.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084783",
+    "sap": "101044304",
+    "type": "champlat",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085742",
+    "sap": "101051514",
+    "type": "champlat",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 17.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085759",
+    "sap": "101051515",
+    "type": "champlat",
+    "material": "alu",
+    "color": "anthracite",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 22.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084714",
+    "sap": "101044309",
+    "type": "habillage",
+    "material": "alu",
+    "color": "blanc",
+    "h": 3.5,
+    "w": 3.5,
+    "vri": false,
+    "price": 27.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085681",
+    "sap": "101051546",
+    "type": "habillage",
+    "material": "alu",
+    "color": "blanc",
+    "h": 3.5,
+    "w": 3.5,
+    "vri": false,
+    "price": 19.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581084721",
+    "sap": "101044310",
+    "type": "habillage",
+    "material": "alu",
+    "color": "blanc",
+    "h": 6,
+    "w": 3,
+    "vri": false,
+    "price": 30.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085698",
+    "sap": "101051547",
+    "type": "habillage",
+    "material": "alu",
+    "color": "blanc",
+    "h": 6,
+    "w": 3,
+    "vri": false,
+    "price": 24.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085544",
+    "sap": "101044293",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 59.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085056",
+    "sap": "101044296",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 54.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084912",
+    "sap": "101044300",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 41.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084929",
+    "sap": "101044301",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 46.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084905",
+    "sap": "101044302",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084752",
+    "sap": "101044305",
+    "type": "champlat",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 22.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084769",
+    "sap": "101044306",
+    "type": "champlat",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085766",
+    "sap": "101051484",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 45.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085827",
+    "sap": "101051485",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 54.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085858",
+    "sap": "101051511",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 27.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085865",
+    "sap": "101051512",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 29.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085841",
+    "sap": "101051513",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085728",
+    "sap": "101051516",
+    "type": "champlat",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 17.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085735",
+    "sap": "101051517",
+    "type": "champlat",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 22.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085117",
+    "sap": "101055393",
+    "type": "poignee",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 10.3,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085209",
+    "sap": "101055396",
+    "type": "poignee",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 31.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000829",
+    "sap": "101055397",
+    "type": "fixation",
+    "material": "alu",
+    "color": "blanc",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 21.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581084738",
+    "sap": "101044308",
+    "type": "habillage",
+    "material": "alu",
+    "color": "n/a",
+    "h": 3.5,
+    "w": 3.5,
+    "vri": false,
+    "price": 27.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085704",
+    "sap": "101051544",
+    "type": "habillage",
+    "material": "alu",
+    "color": "n/a",
+    "h": 3.5,
+    "w": 3.5,
+    "vri": false,
+    "price": 19.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085551",
+    "sap": "101044295",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 59.9,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085810",
+    "sap": "101051482",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 45.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085834",
+    "sap": "101051483",
+    "type": "elargisseur",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 54.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085889",
+    "sap": "101051508",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 27.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085896",
+    "sap": "101051509",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 29.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "5036581085872",
+    "sap": "101051510",
+    "type": "tapee-isolation",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 24.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3663797000782",
+    "sap": "101055381",
+    "type": "fixation",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 5.1,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000881",
+    "sap": "101055382",
+    "type": "fixation",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 5.1,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085124",
+    "sap": "101055388",
+    "type": "poignee",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 10.3,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085223",
+    "sap": "101055391",
+    "type": "poignee",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 18.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085193",
+    "sap": "101055392",
+    "type": "poignee",
+    "material": "alu",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 10.3,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079130",
+    "sap": "101059100",
+    "type": "abattant",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 60,
+    "vri": false,
+    "price": 105,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079147",
+    "sap": "101059101",
+    "type": "abattant",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 80,
+    "vri": false,
+    "price": 109,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079123",
+    "sap": "101059098",
+    "type": "abattant",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 100,
+    "vri": false,
+    "price": 119,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079154",
+    "sap": "101059099",
+    "type": "abattant",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 120,
+    "vri": false,
+    "price": 159,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077518",
+    "sap": "101059111",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 90.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077525",
+    "sap": "101059124",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 45,
+    "w": 40,
+    "vri": false,
+    "price": 90.5,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079536",
+    "sap": "101059112",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 60,
+    "w": 60,
+    "vri": false,
+    "price": 105,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581079529",
+    "sap": "101059113",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 60,
+    "w": 60,
+    "vri": false,
+    "price": 105,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083403",
+    "sap": "101059116",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 50,
+    "vri": false,
+    "price": 105,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083397",
+    "sap": "101059117",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 50,
+    "vri": false,
+    "price": 105,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080075",
+    "sap": "101059118",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 109,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581080068",
+    "sap": "101059119",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 60,
+    "vri": false,
+    "price": 109,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083380",
+    "sap": "101059122",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 95,
+    "w": 60,
+    "vri": false,
+    "price": 125,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083373",
+    "sap": "101059123",
+    "type": "1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 95,
+    "w": 60,
+    "vri": false,
+    "price": 125,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082864",
+    "sap": "101059114",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 100,
+    "vri": false,
+    "price": 179,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082963",
+    "sap": "101059115",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 75,
+    "w": 120,
+    "vri": false,
+    "price": 189,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082901",
+    "sap": "101059120",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 95,
+    "w": 100,
+    "vri": false,
+    "price": 205,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082895",
+    "sap": "101059121",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 95,
+    "w": 120,
+    "vri": false,
+    "price": 225,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082987",
+    "sap": "101059102",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 105,
+    "w": 100,
+    "vri": false,
+    "price": 209,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082956",
+    "sap": "101059103",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 105,
+    "w": 120,
+    "vri": false,
+    "price": 235,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082918",
+    "sap": "101059104",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 115,
+    "w": 100,
+    "vri": false,
+    "price": 219,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082925",
+    "sap": "101059105",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 115,
+    "w": 120,
+    "vri": false,
+    "price": 239,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082949",
+    "sap": "101059106",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 125,
+    "w": 100,
+    "vri": false,
+    "price": 225,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082932",
+    "sap": "101059107",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 125,
+    "w": 120,
+    "vri": false,
+    "price": 249,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082970",
+    "sap": "101059108",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 135,
+    "w": 100,
+    "vri": false,
+    "price": 259,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082871",
+    "sap": "101059109",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 135,
+    "w": 120,
+    "vri": false,
+    "price": 269,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581082888",
+    "sap": "101059110",
+    "type": "2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 135,
+    "w": 140,
+    "vri": false,
+    "price": 299,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077082",
+    "sap": "101059092",
+    "type": "porte-fenetre-1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 205,
+    "w": 80,
+    "vri": false,
+    "price": 275,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077075",
+    "sap": "101059093",
+    "type": "porte-fenetre-1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 205,
+    "w": 80,
+    "vri": false,
+    "price": 275,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077341",
+    "sap": "101059096",
+    "type": "porte-fenetre-1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 215,
+    "w": 80,
+    "vri": false,
+    "price": 279,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581077334",
+    "sap": "101059097",
+    "type": "porte-fenetre-1vantail",
+    "material": "bois",
+    "color": "meranti",
+    "h": 215,
+    "w": 80,
+    "vri": false,
+    "price": 279,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083946",
+    "sap": "101059091",
+    "type": "porte-fenetre-2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 205,
+    "w": 120,
+    "vri": false,
+    "price": 435,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083953",
+    "sap": "101059094",
+    "type": "porte-fenetre-2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 215,
+    "w": 120,
+    "vri": false,
+    "price": 455,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581083960",
+    "sap": "101059095",
+    "type": "porte-fenetre-2vantaux",
+    "material": "bois",
+    "color": "meranti",
+    "h": 215,
+    "w": 140,
+    "vri": false,
+    "price": 489,
+    "gamme": "Sur commande",
+    "filiere": "DC"
+  },
+  {
+    "ean": "5036581085711",
+    "sap": "101051545",
+    "type": "habillage",
+    "material": "accessoire",
+    "color": "anthracite",
+    "h": 6,
+    "w": 3,
+    "vri": false,
+    "price": 24.9,
+    "gamme": "Sur commande",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320034",
+    "sap": "100211249",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "anthracite",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320010",
+    "sap": "100211247",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "blanc",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320003",
+    "sap": "100211248",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "blanc",
+    "h": 250,
+    "w": 90,
+    "vri": false,
+    "price": 32.5,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320096",
+    "sap": "100211239",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320072",
+    "sap": "100211254",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320119",
+    "sap": "100211265",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613393588",
+    "sap": "101072781",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": 100,
+    "w": 90,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3700613320027",
+    "sap": "100211251",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": 250,
+    "w": 90,
+    "vri": false,
+    "price": 32.5,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3530782948322",
+    "sap": "100084870",
+    "type": "joint-etancheite",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 8.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3700613320195",
+    "sap": "100211286",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 14.9,
+    "gamme": "Gamme A",
+    "filiere": "Cross Dock"
+  },
+  {
+    "ean": "3663797000867",
+    "sap": "101055386",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 11.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000836",
+    "sap": "101055398",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 19.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000850",
+    "sap": "101055399",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 11.4,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000843",
+    "sap": "101055400",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 12.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000805",
+    "sap": "101055401",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 10.3,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000799",
+    "sap": "101055402",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 9.25,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3663797000812",
+    "sap": "101055403",
+    "type": "fixation",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 11.9,
+    "gamme": "Gamme A",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3530780003832",
+    "sap": "101057891",
+    "type": "joint-etancheite",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 12.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3530783880126",
+    "sap": "101057892",
+    "type": "film-survitrage",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 16.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  },
+  {
+    "ean": "3530782948049",
+    "sap": "101080693",
+    "type": "joint-etancheite",
+    "material": "accessoire",
+    "color": "n/a",
+    "h": null,
+    "w": null,
+    "vri": false,
+    "price": 10.9,
+    "gamme": "Gamme B",
+    "filiere": "DC"
+  }
+]
+// ============================================================
+
+const typeLabels = {
+    'abattant': 'Châssis abattant',
+    '1vantail': 'Fenêtre 1 vantail',
+    '2vantaux': 'Fenêtre 2 vantaux',
+    'porte-fenetre': 'Porte-fenêtre',
+    'coulissante': 'Coulissante',
+    'baie': 'Baie coulissante',
+    'fixe': 'Châssis fixe'
+};
+
+const materialLabels = { 'pvc': 'PVC', 'alu': 'Aluminium', 'bois': 'Bois' };
+
+let activeFilters = { materials: ['pvc', 'alu', 'bois'], vriOnly: false, gammeAOnly: false };
+
+function toggleFilter(el) {
+    el.classList.toggle('active');
+    const mat = el.dataset.material;
+    const opt = el.dataset.option;
+    if (mat) {
+        if (el.classList.contains('active')) {
+            if (!activeFilters.materials.includes(mat)) activeFilters.materials.push(mat);
+        } else {
+            activeFilters.materials = activeFilters.materials.filter(m => m !== mat);
+        }
+    }
+    if (opt === 'vri') activeFilters.vriOnly = el.classList.contains('active');
+    if (opt === 'gamme-a') activeFilters.gammeAOnly = el.classList.contains('active');
+    
+    const h = document.getElementById('height').value;
+    const w = document.getElementById('width').value;
+    if (h && w) searchWindows();
+}
+
+function searchWindows() {
+    const height = parseInt(document.getElementById('height').value);
+    const width = parseInt(document.getElementById('width').value);
+    const windowType = document.getElementById('window-type').value;
+    const tolerance = parseInt(document.getElementById('tolerance').value);
+
+    if (!height || !width) {
+        showToast('Veuillez entrer les dimensions');
+        return;
+    }
+
+    let results = windowDatabase.filter(win => {
+        if (!activeFilters.materials.includes(win.material)) return false;
+        if (activeFilters.vriOnly && !win.vri) return false;
+        if (activeFilters.gammeAOnly && win.gamme !== 'Gamme A') return false;
+        if (windowType !== 'all' && win.type !== windowType) return false;
+        return Math.abs(win.h - height) <= tolerance && Math.abs(win.w - width) <= tolerance;
+    });
+
+    results.sort((a, b) => {
+        const dA = Math.abs(a.h - height) + Math.abs(a.w - width);
+        const dB = Math.abs(b.h - height) + Math.abs(b.w - width);
+        return dA - dB;
+    });
+
+    displayResults(results, height, width);
+}
+
+function displayResults(results, tH, tW) {
+    const container = document.getElementById('results-container');
+    document.getElementById('results-total').textContent = results.length;
+
+    if (results.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">😕</div><h3 class="empty-title">Aucune fenêtre trouvée</h3><p class="empty-text">Essayez d\'augmenter la tolérance ou de modifier les filtres</p></div>';
+        return;
+    }
+
+    const exact = results.filter(r => r.h === tH && r.w === tW);
+    const bigger = results.filter(r => (r.h > tH || r.w > tW) && !(r.h === tH && r.w === tW));
+    const smaller = results.filter(r => (r.h < tH || r.w < tW) && !(r.h === tH && r.w === tW) && !bigger.includes(r));
+
+    let html = '';
+    if (exact.length > 0) {
+        html += '<div class="section-header"><div class="section-icon exact">✓</div><span class="section-title">Correspondances exactes</span><span class="section-count">' + exact.length + '</span></div>';
+        html += exact.map(w => card(w, tH, tW, 'exact')).join('');
+    }
+    if (bigger.length > 0) {
+        html += '<div class="section-header"><div class="section-icon bigger">↗</div><span class="section-title">Dimensions supérieures</span><span class="section-count">' + bigger.length + '</span></div>';
+        html += bigger.map(w => card(w, tH, tW, 'bigger')).join('');
+    }
+    if (smaller.length > 0) {
+        html += '<div class="section-header"><div class="section-icon smaller">↙</div><span class="section-title">Dimensions inférieures</span><span class="section-count">' + smaller.length + '</span></div>';
+        html += smaller.map(w => card(w, tH, tW, 'smaller')).join('');
+    }
+    container.innerHTML = '<div class="results-grid">' + html + '</div>';
+}
+
+function card(win, tH, tW, matchType) {
+    const hD = win.h - tH, wD = win.w - tW;
+    let diffBadge = '';
+    if (matchType === 'exact') diffBadge = '<span class="diff-badge exact">EXACT</span>';
+    else if (matchType === 'bigger') diffBadge = '<span class="diff-badge bigger">' + (hD >= 0 ? '+' : '') + hD + ' × ' + (wD >= 0 ? '+' : '') + wD + '</span>';
+    else diffBadge = '<span class="diff-badge smaller">' + hD + ' × ' + wD + '</span>';
+
+    const cardClass = matchType === 'exact' ? 'result-card exact-match' : 'result-card';
+    const vriTag = win.vri ? '<span class="vri-tag">⚡ VRI</span>' : '';
+    const colorTxt = win.color && win.color !== 'blanc' ? ' ' + win.color : '';
+    const filiereClass = win.filiere === 'DC' ? 'dc' : 'cross-dock';
+
+    return '<div class="' + cardClass + '">' +
+        '<div class="card-header">' +
+            '<div class="card-dimension">' +
+                '<span class="dimension-value">' + win.h + ' × ' + win.w + '</span>' +
+                '<span class="dimension-label">Hauteur × Largeur (cm)</span>' +
+            '</div>' +
+            diffBadge +
+        '</div>' +
+        '<div class="card-body">' +
+            '<div class="card-type">' + typeLabels[win.type] + vriTag + '</div>' +
+            '<div class="card-meta">' +
+                '<span class="material-tag ' + win.material + '">' + materialLabels[win.material] + colorTxt + '</span>' +
+                '<span class="filiere-tag ' + filiereClass + '">' + win.filiere + '</span>' +
+                '<span class="gamme-text">' + win.gamme + '</span>' +
+            '</div>' +
+        '</div>' +
+        '<div class="card-footer">' +
+            '<span class="card-price">' + win.price.toFixed(2) + '<span class="currency">€</span></span>' +
+            '<div class="card-codes">' +
+                '<button class="ean-btn" onclick="copyEAN(\'' + win.ean + '\', this)"><span class="copy-icon">📋</span>' + win.ean + '</button>' +
+                '<span class="sap-code">SAP ' + win.sap + '</span>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
+function copyEAN(ean, el) {
+    navigator.clipboard.writeText(ean).then(() => {
+        el.classList.add('copied');
+        el.innerHTML = '<span class="copy-icon">✓</span> Copié!';
+        showToast('EAN copié: ' + ean);
+        setTimeout(() => { el.classList.remove('copied'); el.innerHTML = '<span class="copy-icon">📋</span>' + ean; }, 2000);
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('visible');
+    setTimeout(() => { t.classList.remove('visible'); }, 3000);
+}
+
+function clearSearch() {
+    document.getElementById('height').value = '';
+    document.getElementById('width').value = '';
+    document.getElementById('window-type').value = 'all';
+    document.getElementById('tolerance').value = '10';
+    document.getElementById('results-total').textContent = '0';
+    document.getElementById('results-container').innerHTML = '<div class="empty-state"><div class="empty-icon">🪟</div><h3 class="empty-title">Entrez les dimensions recherchées</h3><p class="empty-text">Les résultats s\'afficheront avec les correspondances exactes et proches</p></div>';
+}
+
+document.getElementById('height').addEventListener('keypress', e => { if (e.key === 'Enter') { document.getElementById('width').focus(); } });
+document.getElementById('width').addEventListener('keypress', e => { if (e.key === 'Enter') searchWindows(); });
+</script>
+</body>
+</html>
