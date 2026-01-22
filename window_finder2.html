@@ -196,6 +196,51 @@
             border-radius: 0 var(--radius-md) var(--radius-md) 0;
         }
 
+        /* Dimension Type Toggle */
+        .dimension-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .dimension-toggle {
+            display: flex;
+            background: var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .toggle-option {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: calc(var(--radius-md) - 2px);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            white-space: nowrap;
+        }
+
+        .toggle-option:hover {
+            color: var(--text-secondary);
+        }
+
+        .toggle-option.active {
+            background: var(--casto-blue);
+            color: white;
+            box-shadow: 0 1px 3px rgba(0, 101, 255, 0.3);
+        }
+
+        .toggle-hint {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
         /* Options Row */
         .options-row {
             display: flex;
@@ -1145,6 +1190,13 @@
                         <span class="dim-separator">×</span>
                         <input type="number" class="dim-input" id="width" placeholder="L" min="1">
                         <span class="dim-unit">cm</span>
+                    </div>
+                    <div class="dimension-toggle-container">
+                        <div class="dimension-toggle">
+                            <button type="button" class="toggle-option active" data-dim-type="ouvrant" onclick="toggleDimensionType('ouvrant')">Ouvrant</button>
+                            <button type="button" class="toggle-option" data-dim-type="horstout" onclick="toggleDimensionType('horstout')">Hors tout</button>
+                        </div>
+                        <span class="toggle-hint" id="dim-type-hint">Dimensions de l'ouvrant</span>
                     </div>
                 </div>
 
@@ -6624,6 +6676,57 @@ const materialLabels = { 'pvc': 'PVC', 'alu': 'Aluminium', 'bois': 'Bois' };
 
 let activeFilters = { materials: ['pvc', 'alu', 'bois'], vriOnly: false, gammeAOnly: false };
 
+// Dimension type toggle: 'ouvrant' or 'horstout'
+let dimensionType = 'ouvrant';
+
+function toggleDimensionType(type) {
+    dimensionType = type;
+
+    // Update toggle button states
+    document.querySelectorAll('.toggle-option').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.dimType === type);
+    });
+
+    // Update hint text
+    const hint = document.getElementById('dim-type-hint');
+    hint.textContent = type === 'ouvrant' ? "Dimensions de l'ouvrant" : "Dimensions hors tout";
+
+    // Re-run search if dimensions are entered
+    const h = document.getElementById('height').value;
+    const w = document.getElementById('width').value;
+    if (h && w) searchWindows();
+}
+
+// Calculate hors tout dimensions based on material and VRI
+function calculateHorsTout(win) {
+    let addH = 0, addW = 0;
+
+    switch (win.material) {
+        case 'pvc':
+            addW = 5;
+            addH = 3;
+            if (win.vri) addH += 18.7;
+            break;
+        case 'alu':
+            addW = 3;
+            addH = 2;
+            if (win.vri) {
+                // Different VRI height based on window height
+                addH += (win.h < 140) ? 15.5 : 18.5;
+            }
+            break;
+        case 'bois':
+            addW = 5;
+            addH = 2.8;
+            break;
+    }
+
+    return {
+        h: Math.round((win.h + addH) * 10) / 10,
+        w: Math.round((win.w + addW) * 10) / 10
+    };
+}
+
 // Slider setup and debounce
 let searchTimeout = null;
 const toleranceSlider = document.getElementById('tolerance');
@@ -6685,17 +6788,29 @@ function searchWindows() {
         return;
     }
 
+    // Helper to get dimensions based on current mode
+    const getDimensions = (win) => {
+        if (dimensionType === 'horstout') {
+            return calculateHorsTout(win);
+        }
+        return { h: win.h, w: win.w };
+    };
+
     let results = windowDatabase.filter(win => {
         if (!activeFilters.materials.includes(win.material)) return false;
         if (activeFilters.vriOnly && !win.vri) return false;
         if (activeFilters.gammeAOnly && win.gamme !== 'Gamme A') return false;
         if (windowType !== 'all' && win.type !== windowType) return false;
-        return Math.abs(win.h - height) <= tolerance && Math.abs(win.w - width) <= tolerance;
+
+        const dims = getDimensions(win);
+        return Math.abs(dims.h - height) <= tolerance && Math.abs(dims.w - width) <= tolerance;
     });
 
     results.sort((a, b) => {
-        const dA = Math.abs(a.h - height) + Math.abs(a.w - width);
-        const dB = Math.abs(b.h - height) + Math.abs(b.w - width);
+        const dimsA = getDimensions(a);
+        const dimsB = getDimensions(b);
+        const dA = Math.abs(dimsA.h - height) + Math.abs(dimsA.w - width);
+        const dB = Math.abs(dimsB.h - height) + Math.abs(dimsB.w - width);
         return dA - dB;
     });
 
@@ -6705,6 +6820,14 @@ function searchWindows() {
 function displayResults(results, tH, tW) {
     const container = document.getElementById('results-container');
     const tolerance = parseInt(document.getElementById('tolerance').value);
+
+    // Helper to get dimensions based on current mode
+    const getDisplayDims = (win) => {
+        if (dimensionType === 'horstout') {
+            return calculateHorsTout(win);
+        }
+        return { h: win.h, w: win.w };
+    };
 
     if (results.length === 0) {
         container.innerHTML = `
@@ -6718,8 +6841,15 @@ function displayResults(results, tH, tW) {
         return;
     }
 
-    const exact = results.filter(r => r.h === tH && r.w === tW);
-    const nonExact = results.filter(r => r.h !== tH || r.w !== tW);
+    // Compare using appropriate dimensions based on mode
+    const exact = results.filter(r => {
+        const dims = getDisplayDims(r);
+        return dims.h === tH && dims.w === tW;
+    });
+    const nonExact = results.filter(r => {
+        const dims = getDisplayDims(r);
+        return dims.h !== tH || dims.w !== tW;
+    });
 
     let html = '';
     let displayedResults = [];
@@ -6791,14 +6921,18 @@ function displayResults(results, tH, tW) {
 }
 
 function getMatchType(w, tH, tW) {
-    const hD = w.h - tH, wD = w.w - tW;
+    // Use appropriate dimensions based on mode
+    const dims = dimensionType === 'horstout' ? calculateHorsTout(w) : { h: w.h, w: w.w };
+    const hD = dims.h - tH, wD = dims.w - tW;
     if (hD >= 0 && wD >= 0) return 'bigger';
     if (hD <= 0 && wD <= 0) return 'smaller';
     return 'mixed';
 }
 
 function card(win, tH, tW, matchType) {
-    const hD = win.h - tH, wD = win.w - tW;
+    // Get display dimensions based on mode
+    const displayDims = dimensionType === 'horstout' ? calculateHorsTout(win) : { h: win.h, w: win.w };
+    const hD = displayDims.h - tH, wD = displayDims.w - tW;
 
     // Human-readable diff badge
     let diffBadge = '';
@@ -6808,11 +6942,13 @@ function card(win, tH, tW, matchType) {
         let diffParts = [];
         if (hD !== 0) {
             const hSign = hD > 0 ? '↑' : '↓';
-            diffParts.push(`${hSign} ${Math.abs(hD)}cm H`);
+            const diffVal = Math.abs(Math.round(hD * 10) / 10);
+            diffParts.push(`${hSign} ${diffVal}cm H`);
         }
         if (wD !== 0) {
             const wSign = wD > 0 ? '↑' : '↓';
-            diffParts.push(`${wSign} ${Math.abs(wD)}cm L`);
+            const diffVal = Math.abs(Math.round(wD * 10) / 10);
+            diffParts.push(`${wSign} ${diffVal}cm L`);
         }
         const badgeClass = hD >= 0 && wD >= 0 ? 'bigger' : (hD <= 0 && wD <= 0 ? 'smaller' : 'bigger');
         diffBadge = `<span class="diff-badge ${badgeClass}">${diffParts.join(' ')}</span>`;
@@ -6822,8 +6958,11 @@ function card(win, tH, tW, matchType) {
     const hClass = hD === 0 ? 'dim-match' : (hD > 0 ? 'dim-bigger' : 'dim-smaller');
     const wClass = wD === 0 ? 'dim-match' : (wD > 0 ? 'dim-bigger' : 'dim-smaller');
     const dimensionHtml = matchType === 'exact'
-        ? `${win.h} × ${win.w}`
-        : `<span class="${hClass}">${win.h}</span> × <span class="${wClass}">${win.w}</span>`;
+        ? `${displayDims.h} × ${displayDims.w}`
+        : `<span class="${hClass}">${displayDims.h}</span> × <span class="${wClass}">${displayDims.w}</span>`;
+
+    // Dimension label based on mode
+    const dimLabel = dimensionType === 'horstout' ? 'H × L hors tout (cm)' : 'H × L (cm)';
 
     // Card classes
     let cardClasses = ['result-card', `material-${win.material}`];
@@ -6846,7 +6985,7 @@ function card(win, tH, tW, matchType) {
         <div class="card-header">
             <div class="card-dimension">
                 <span class="dimension-value">${dimensionHtml}</span>
-                <span class="dimension-label">H × L (cm)</span>
+                <span class="dimension-label">${dimLabel}</span>
                 ${diffBadge}
             </div>
             <div class="card-price-section">
@@ -6892,6 +7031,8 @@ function clearSearch() {
     document.getElementById('window-type').value = 'all';
     document.getElementById('tolerance').value = '0';
     updateSliderBubble();
+    // Reset dimension type toggle
+    toggleDimensionType('ouvrant');
     document.getElementById('results-total').textContent = '0';
     document.getElementById('results-container').innerHTML = `
         <div class="empty-state">
